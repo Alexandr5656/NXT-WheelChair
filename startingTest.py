@@ -1,9 +1,9 @@
 
+import socket, sys, os, array, threading
+from time import *
+from fcntl import ioctl
+from can2RNET import *
 import sys
-from can2RNET import cansend, canwait
-from time import sleep, time
-import socket
-
 # Function to induce JSM error
 def induce_JSM_error(cansocket):
     for i in range(0,3):
