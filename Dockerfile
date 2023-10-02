@@ -1,5 +1,5 @@
 # Use a base image with a Linux distribution of your choice (e.g., Ubuntu)
-FROM python:3.8-slim-buster
+FROM python:3.7-slim-buster
 
 
 # Update the package list and install necessary packages
