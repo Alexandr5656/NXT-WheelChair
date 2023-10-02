@@ -87,9 +87,10 @@ def cansend(s,cansendtxt):
     try:
         
         out=build_frame(cansendtxt)
-        print('_____________')
-        print(cansendtxt)
-        print(out)
+        if (not cansendtxt == "02000000#0000"):
+            print('_____________')
+            print(cansendtxt)
+            print(out)
         if out != 'Err!':
             s.send(out)
     except socket.error:
