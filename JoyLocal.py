@@ -287,6 +287,7 @@ def wait_rnet_joystick_frame(can_socket, start_time):
 #Set speed_range: 0% - 100%
 def RNETsetSpeedRange(cansocket,speed_range):
     if speed_range>=0 and speed_range<=0x64:
+        print('0a040100#'+dec2hex(speed_range,2))
         cansend(cansocket,'0a040100#'+dec2hex(speed_range,2))
     else:
         print('Invalid RNET SpeedRange: ' + str(speed_range))
