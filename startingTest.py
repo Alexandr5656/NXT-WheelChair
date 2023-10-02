@@ -37,20 +37,18 @@ def wait_rnet_joystick_frame(can_socket, start_time):
             return 'Err!'
     return frameid
 
-# Function to drive the wheelchair forward for a specified amount of time
 def drive_forward(seconds):
     # Initialize CAN socket
-    s = socket.socket(socket.PF_CAN, socket.SOCK_RAW, socket.CAN_RAW)
-    s.bind(("can0",))
+    can_socket = opencansocket(0)
 
     # Exploit JSM error to gain control (if necessary)
-    joy_id = RNET_JSMerror_exploit(s)
+    joy_id = RNET_JSMerror_exploit(can_socket)
 
     # CAN frame to move the wheelchair forward (following the structure in JoyLocal.py)
     forward_frame = joy_id + '#000080'  # This frame may need adjustment
 
     # Send the forward command
-    cansend(s, forward_frame)
+    cansend(can_socket, forward_frame)
 
     # Wait for the specified amount of time
     sleep(seconds)
@@ -59,10 +57,10 @@ def drive_forward(seconds):
     stop_frame = joy_id + '#000000'  # This frame may need adjustment
 
     # Send the stop command
-    cansend(s, stop_frame)
+    cansend(can_socket, stop_frame)
 
     # Close the CAN socket
-    s.close()
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

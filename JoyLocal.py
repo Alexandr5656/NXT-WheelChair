@@ -367,7 +367,53 @@ def selectControlExploit(can_socket):
             daemon=True)
         inject_rnet_joystick_frame_thread.start()
 
+def selectControlExploiter(can_socket):
+    user_selection = 1
 
+    if (user_selection == 1):
+        print("\n You chose to disable the R-Net Joystick temporary. Restart the chair to fix. ")
+        start_time = time() + .20
+        print('Waiting for RNET-Joystick frame')
+
+        rnet_joystick_id = wait_rnet_joystick_frame(can_socket, start_time) #t=timeout time
+        if rnet_joystick_id == 'Err!':
+            print('No RNET-Joystick frame seen within minimum time')
+            sys.exit()
+        print('Found RNET-Joystick frame: ' + rnet_joystick_id)
+
+        # set chair's speed to the lowest setting.
+        chair_speed_range = 00
+        RNETsetSpeedRange(can_socket, chair_speed_range)
+
+        rnet_joystick_id = RNET_JSMerror_exploit(can_socket)
+
+        sendjoyframethread = threading.Thread(
+            target=send_joystick_canframe,
+            args=(can_socket,rnet_joystick_id,),
+            daemon=True)
+        sendjoyframethread.start()
+    elif (user_selection == 2):
+        print("\n You chose to allow the R-Net Joystick.")
+        start_time = time() + .20
+        print('Waiting for RNET-Joystick frame')
+
+        rnet_joystick_id = wait_rnet_joystick_frame(can_socket, start_time) #t=timeout time
+        if rnet_joystick_id == 'Err!':
+            print('No RNET-Joystick frame seen within minimum time')
+            sys.exit()
+        print('Found RNET-Joystick frame: ' + rnet_joystick_id)
+
+
+        # set chair's speed to the lowest setting.
+        chair_speed_range = 00
+        RNETsetSpeedRange(can_socket, chair_speed_range)
+
+
+        inject_rnet_joystick_frame_thread = threading.Thread(
+            target=inject_rnet_joystick_frame,
+            args=(can_socket, rnet_joystick_id,),
+            daemon=True)
+        inject_rnet_joystick_frame_thread.start()
 
 if __name__ == "__main__":
     global rnet_threads_running
