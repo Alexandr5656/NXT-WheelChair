@@ -87,7 +87,9 @@ def cansend(s,cansendtxt):
     try:
         
         out=build_frame(cansendtxt)
-        print(cansendtxt+"::::"+out)
+        print('_____________')
+        print(cansendtxt)
+        print(out)
         if out != 'Err!':
             s.send(out)
     except socket.error:
