@@ -83,8 +83,11 @@ def dissect_frame(frame):
     return (can_idtxt + '#'+''.join(["%02X" % x for x in data[:can_dlc]]) + 'R'*rtr)
 
 def cansend(s,cansendtxt):
+    
     try:
+        
         out=build_frame(cansendtxt)
+        print(cansendtxt+"::::"+out)
         if out != 'Err!':
             s.send(out)
     except socket.error:
