@@ -6,6 +6,7 @@ import socket
 
 def drive_forward(seconds):
     # Initialize CAN socket
+    print("Starting")
     s = socket.socket(socket.PF_CAN, socket.SOCK_RAW, socket.CAN_RAW)
     s.bind(("can0",))
 
