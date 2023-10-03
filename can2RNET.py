@@ -85,7 +85,6 @@ def dissect_frame(frame):
 def cansend(s,cansendtxt):
     
     try:
-        
         out=build_frame(cansendtxt)
         #if (not cansendtxt == "02000000#0000"):
         #    print('_____________')
