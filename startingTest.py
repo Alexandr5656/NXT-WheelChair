@@ -87,10 +87,11 @@ def play_r2d2_noise(can_socket):
     for duration, note in r2d2_notes:
         # Construct and send the CAN frame
         can_id = "181C0100"
-        can_data = duration + note + "00000000"  # pad with zeros to make 8 bytes
-        print(can_data)
-        cansend(can_socket, f"{can_id}#{can_data}")
-
+        can_data = can_data+duration + note + "00000000"  # pad with zeros to make 8 bytes
+    print(can_data)
+    print(can_id+"#"+can_data)
+    cansend(can_socket, f"{can_id}#{can_data}")
+    
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
