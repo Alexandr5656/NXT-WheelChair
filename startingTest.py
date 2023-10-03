@@ -53,10 +53,26 @@ def RNETsetSpeedRange(cansocket,speed_range):
         cansend(cansocket,'0a040100#'+dec2hex(speed_range,2))
     else:
         print('Invalid RNET SpeedRange: ' + str(speed_range))
-def drive_forward(seconds):
+def startAuto():
     can_socket = opencansocket(0)
-    play_r2d2_noise(can_socket)     
-    return
+    drive_forward(3)
+    driveLeft(4)
+    
+def driveLeft(can_socket, seconds):
+    start_time = time()
+    stop_time = start_time + seconds
+    RNETsetSpeedRange(can_socket,10)
+
+    forward_frame = '02000000#'+dec2hex(60,2)+dec2hex(0,2)
+    while time() < stop_time:
+        cansend(can_socket, forward_frame)
+
+    stop_frame = '02000000#0000'
+
+    # Send the stop command
+    cansend(can_socket, stop_frame)
+def drive_forward(can_socket, seconds):
+    
 
     start_time = time()
     stop_time = start_time + seconds
@@ -82,7 +98,7 @@ def play_r2d2_noise(can_socket):
     """
     
     # Example sequence of notes with format (Duration, Note)
-    r2d2_notes = [("64", "5a"), ("C8", "5b"), ("64", "5c"), ("C8", "5d")]
+    r2d2_notes = [("64", "5a"), ("C8", "C8"), ("64", "5c"), ("C8", "5d")]
     can_data =""
     for duration, note in r2d2_notes:
         # Construct and send the CAN frame
@@ -102,5 +118,4 @@ if __name__ == "__main__":
     except ValueError:
         print("Error: Invalid input. Please enter a number.")
         sys.exit(1)
-    #play_r2d2_noise()
-    drive_forward(seconds)
+    startAuto()
