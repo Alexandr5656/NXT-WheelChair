@@ -204,12 +204,14 @@ class X360:
                     if (axis == 'x'):
                             if abs(jvalue) > self.xthreshold:
                                     joystick_x = 0x100 + int(jvalue * 100 / 128) >> 8 &0xFF
-                                    print(f"Joystick num: {joystick_x}")
+                                    print(f"Joystick_X num: {joystick_x}")
                             else:
                                     joystick_x = 0
                     elif (axis == 'y'):
                             if abs(jvalue) > self.ythreshold:
                                     joystick_y = 0x100 - int(jvalue * 100 / 128) >> 8 &0xFF
+
+                                    print(f"Joystick_Y num: {joystick_y}")
                             else:
                                     joystick_y = 0
 
