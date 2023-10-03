@@ -36,7 +36,14 @@ def wait_rnet_joystick_frame(can_socket, start_time):
             print("JoyFrame wait timed out")
             return 'Err!'
     return frameid
-
+def dec2hex(dec,hexlen):  #convert dec to hex with leading 0s and no '0x'
+    h=hex(int(dec))[2:]
+    l=len(h)
+    if h[l-1]=="L":
+        l-=1  #strip the 'L' that python int sticks on
+    if h[l-2]=="x":
+        h= '0'+hex(int(dec))[1:]
+    return ('0'*hexlen+h)[l:l+hexlen]
 # This creates a power level that is wheelchair readable only use is for forward or backward
 def powerToCan(powerLevel):
     #TODO Convert -255 to 255 to a command
