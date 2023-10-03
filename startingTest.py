@@ -55,6 +55,9 @@ def RNETsetSpeedRange(cansocket,speed_range):
         print('Invalid RNET SpeedRange: ' + str(speed_range))
 def drive_forward(seconds):
     can_socket = opencansocket(0)
+    play_r2d2_noise(can_socket)     
+    return
+
     start_time = time()
     stop_time = start_time + seconds
     RNETsetSpeedRange(can_socket,10)
@@ -70,6 +73,23 @@ def drive_forward(seconds):
 
     # Close the CAN socket
 
+def play_r2d2_noise(can_socket):
+    """
+    Play an R2D2-like noise on the wheelchair using the can_socket.
+
+    Args:
+    - can_socket: a socket connected to the CAN network.
+    """
+    
+    # Example sequence of notes with format (Duration, Note)
+    r2d2_notes = [("10", "5a"), ("20", "5b"), ("10", "5c"), ("20", "5d")]
+
+    for duration, note in r2d2_notes:
+        # Construct and send the CAN frame
+        can_id = "181C0100"
+        can_data = duration + note + "00000000"  # pad with zeros to make 8 bytes
+        cansend(can_socket, f"{can_id}#{can_data}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -80,5 +100,5 @@ if __name__ == "__main__":
     except ValueError:
         print("Error: Invalid input. Please enter a number.")
         sys.exit(1)
-    
+    #play_r2d2_noise()
     drive_forward(seconds)
