@@ -83,7 +83,7 @@ def play_r2d2_noise(can_socket):
     
     # Example sequence of notes with format (Duration, Note)
     r2d2_notes = [("10", "5a"), ("20", "5b"), ("10", "5c"), ("20", "5d")]
-
+    can_data =""
     for duration, note in r2d2_notes:
         # Construct and send the CAN frame
         can_id = "181C0100"
