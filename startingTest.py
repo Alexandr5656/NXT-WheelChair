@@ -56,7 +56,7 @@ def RNETsetSpeedRange(cansocket,speed_range):
 def startAuto():
     can_socket = opencansocket(0)
     drive_forward(can_socket,2)
-    driveLeft(can_socket,4)
+    driveLeft(can_socket,3)
     
 def driveLeft(can_socket, seconds):
     start_time = time()
