@@ -78,7 +78,7 @@ def drive_forward(can_socket, seconds):
     stop_time = start_time + seconds
     RNETsetSpeedRange(can_socket,10)
 
-    forward_frame = '02000000#'+dec2hex(0,2)+dec2hex(60,2)
+    forward_frame = '02000000#'+dec2hex(0,2)+dec2hex(100,2)
     while time() < stop_time:
         cansend(can_socket, forward_frame)
 
