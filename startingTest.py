@@ -37,26 +37,26 @@ def wait_rnet_joystick_frame(can_socket, start_time):
             return 'Err!'
     return frameid
 
+# This creates a power level that is wheelchair readable only use is for forward or backward
+def powerToCan(powerLevel):
+    #TODO Convert -255 to 255 to a command
+    pass
+def RNETsetSpeedRange(cansocket,speed_range):
+    if speed_range>=0 and speed_range<=0x64:
+        cansend(cansocket,'0a040100#'+dec2hex(speed_range,2))
+    else:
+        print('Invalid RNET SpeedRange: ' + str(speed_range))
 def drive_forward(seconds):
-    # Initialize CAN socket
     can_socket = opencansocket(0)
-
-    # Exploit JSM error to gain control (if necessary)
-    joy_id = RNET_JSMerror_exploit(can_socket)
     start_time = time()
-    
-    # Calculate the time at which to stop
     stop_time = start_time + seconds
-    # CAN frame to move the wheelchair forward (following the structure in JoyLocal.py)
-    forward_frame = '02000000#1b64'  # This frame may need adjustment
+    RNETsetSpeedRange(can_socket,10)
+
+    forward_frame = '02000000#1b64'
     while time() < stop_time:
-        # Send the forward command
-        # Send the forward command
         cansend(can_socket, forward_frame)
 
-
-    # CAN frame to stop the wheelchair
-    stop_frame = '02000000#0000'  # This frame may need adjustment
+    stop_frame = '02000000#0000'
 
     # Send the stop command
     cansend(can_socket, stop_frame)
