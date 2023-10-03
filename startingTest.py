@@ -57,6 +57,7 @@ def startAuto():
     can_socket = opencansocket(0)
     drive_forward(can_socket,5)
     driveLeft(can_socket,2.5)
+    drive_forward(can_socket,5)
     
 def driveLeft(can_socket, seconds):
     start_time = time()
