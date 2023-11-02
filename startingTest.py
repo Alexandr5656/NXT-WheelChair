@@ -59,7 +59,7 @@ def startAuto():
     driveLeft(can_socket,2.5)
     drive_forward(can_socket,5)
     
-def driveLeft(can_socket, seconds):
+def drive_left_seconds(can_socket, seconds):
     start_time = time()
     stop_time = start_time + seconds
     RNETsetSpeedRange(can_socket,10)
@@ -72,9 +72,8 @@ def driveLeft(can_socket, seconds):
 
     # Send the stop command
     cansend(can_socket, stop_frame)
-def drive_forward(can_socket, seconds):
-    
 
+def drive_forward_seconds(can_socket, seconds):
     start_time = time()
     stop_time = start_time + seconds
     RNETsetSpeedRange(can_socket,10)
@@ -88,7 +87,37 @@ def drive_forward(can_socket, seconds):
     # Send the stop command
     cansend(can_socket, stop_frame)
 
-    # Close the CAN socket
+
+def drive_forward(can_socket):
+
+    # Set speed
+    RNETsetSpeedRange(can_socket,10)
+
+    # Create forward frame
+    forward_frame = '02000000#'+dec2hex(0,2)+dec2hex(60,2)
+
+    # Send can frame
+    cansend(can_socket, forward_frame)
+
+def stop_wheelchair(can_socket):
+
+    # Create Stop frame
+    stop_frame = '02000000#0000'
+
+    # Send the stop command
+    cansend(can_socket, stop_frame)
+
+def drive_left(can_socket, seconds):
+    RNETsetSpeedRange(can_socket,10)
+
+    left_frame = '02000000#'+dec2hex(400,2)+dec2hex(0,2)
+    cansend(can_socket, left_frame)
+
+def drive_left(can_socket, seconds):
+    RNETsetSpeedRange(can_socket,10)
+    #TODO check out if this is actually turning the wheelchair right
+    right_frame = '02000000#'+dec2hex(200,2)+dec2hex(0,2)
+    cansend(can_socket, right_frame)
 
 def play_r2d2_noise(can_socket):
     """
